@@ -13,11 +13,13 @@ const Navbar: FC = observer(() => {
     <div>
       <ErrorSnackbar />
       <AppBar position="static">
-        <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Toolbar className="navbar">
           <Typography variant="h6">Todo App</Typography>
-          <Button color="inherit" onClick={logoutHandle}>
-            Log Out
-          </Button>
+          {auth.isAuth && (
+            <Button color="inherit" onClick={logoutHandle}>
+              Log Out
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>

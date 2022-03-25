@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
-import 'app/App.css';
+import './App.scss';
+
 import { LinearProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 

@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import {
-  Box,
   Button,
   FormControl,
   FormGroup,
@@ -49,12 +48,7 @@ export const LoginForm: FC = observer(() => {
   }
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="calc(100vh - 64px)"
-    >
+    <Grid className="form-container">
       <Grid item xs={4}>
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
@@ -64,23 +58,14 @@ export const LoginForm: FC = observer(() => {
               <p>Password: free</p>
             </FormLabel>
             <FormGroup>
-              <TextField
-                label="Email"
-                margin="normal"
-                {...formik.getFieldProps('email')}
-              />
-              {formik.errors.email ? (
-                <div style={{ color: 'red' }}>{formik.errors.email}</div>
-              ) : null}
+              <TextField margin="normal" {...formik.getFieldProps('email')} />
+              {formik.errors.email ? <div>{formik.errors.email}</div> : null}
               <TextField
                 type="password"
-                label="Password"
                 margin="normal"
                 {...formik.getFieldProps('password')}
               />
-              {formik.errors.password ? (
-                <div style={{ color: 'red' }}>{formik.errors.password}</div>
-              ) : null}
+              {formik.errors.password ? <div>{formik.errors.password}</div> : null}
               <Button type="submit" variant="contained" color="primary">
                 Login
               </Button>
@@ -88,6 +73,6 @@ export const LoginForm: FC = observer(() => {
           </FormControl>
         </form>
       </Grid>
-    </Box>
+    </Grid>
   );
 });
