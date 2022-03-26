@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import { FilterValuesType, TaskType, UpdateTaskModelType } from 'models/TodoModel';
+import { FilterValuesType, TaskType, UpdateTaskModelType } from 'models/TodoTypes';
 
 export interface ITodo {
   filter: FilterValuesType;
@@ -22,14 +22,24 @@ class TodoStore implements ITodo {
 
   addTask(task: TaskType): void {
     this.tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 
   removeTask(id: string): void {
-    this.tasks.filter(t => t.id !== id);
+    this.tasks = this.tasks.filter(t => t.id !== id);
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 
   updateTask(id: string, model: UpdateTaskModelType): void {
-    this.tasks.map(t => (t.id === id ? model : t));
+    const { tasks } = this;
+    const index = tasks.findIndex(t => t.id === id);
+    tasks[index] = { ...tasks[index], ...model };
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+  getTasks(): void {
+    const tasksJson = localStorage.getItem('tasks');
+    this.tasks = tasksJson !== null ? JSON.parse(tasksJson) : [];
   }
 }
 

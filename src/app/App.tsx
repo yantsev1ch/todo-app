@@ -8,17 +8,19 @@ import { observer } from 'mobx-react-lite';
 import AppRouter from 'components/AppRouter';
 import Navbar from 'components/Navbar';
 import { useStores } from 'hooks/useStores';
-import { AuthModel } from 'models/AuthModel';
+import { AuthUserType } from 'models/AuthUserType';
 
 const App: FC = observer(() => {
-  const { authStore } = useStores();
+  const { authStore, todoStore } = useStores();
   useEffect(() => {
     if (localStorage.getItem('auth')) {
       authStore.setUser({
         email: localStorage.getItem('email' || ''),
-      } as AuthModel);
+      } as AuthUserType);
       authStore.setAuth(true);
     }
+    todoStore.getTasks();
+    authStore.fetchUsers();
   }, []);
 
   return (

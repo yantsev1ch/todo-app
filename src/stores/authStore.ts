@@ -1,14 +1,17 @@
 import { makeAutoObservable } from 'mobx';
 
 import AuthApi from 'api/authApi';
+import UsersApi from 'api/usersApi';
 import { FormValuesType } from 'components/LoginForm';
-import { AuthModel } from 'models/AuthModel';
+import { AuthUserType } from 'models/AuthUserType';
+import { FetchUsersType } from 'models/FetchUsersType';
 
 export interface IAuth {
   isAuth: boolean;
   error: string;
   isLoading: boolean;
-  user: AuthModel;
+  user: AuthUserType;
+  users: Array<FetchUsersType>;
 }
 
 class AuthStore implements IAuth {
@@ -18,7 +21,9 @@ class AuthStore implements IAuth {
 
   isLoading = false;
 
-  user = {} as AuthModel;
+  user = {} as AuthUserType;
+
+  users: Array<FetchUsersType> = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -36,8 +41,12 @@ class AuthStore implements IAuth {
     this.isLoading = isLoading;
   }
 
-  setUser(user: AuthModel): void {
+  setUser(user: AuthUserType): void {
     this.user = user;
+  }
+
+  setReceivedUsers(users: Array<FetchUsersType>): void {
+    this.users = users;
   }
 
   async login(values: FormValuesType): Promise<void> {
@@ -64,16 +73,26 @@ class AuthStore implements IAuth {
   async logout(): Promise<void> {
     localStorage.removeItem('auth');
     localStorage.removeItem('email');
-    this.setUser({} as AuthModel);
+    this.setUser({} as AuthUserType);
     this.setAuth(false);
   }
-}
 
-export const AuthStoreInitialState = {
-  isAuth: false,
-  error: '',
-  isLoading: false,
-  user: {} as AuthModel,
-};
+  async fetchUsers(): Promise<void> {
+    try {
+      this.setIsLoading(true);
+      const response = await UsersApi.getAllUsers();
+      const receivedUsers = [...response.data];
+      if (receivedUsers) {
+        localStorage.setItem('users', JSON.stringify(receivedUsers));
+        this.setReceivedUsers(receivedUsers);
+      } else {
+        this.setError('Users not found');
+      }
+      this.setIsLoading(false);
+    } catch (e) {
+      this.setError('Error fetch users');
+    }
+  }
+}
 
 export default new AuthStore();

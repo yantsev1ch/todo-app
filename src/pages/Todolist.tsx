@@ -1,14 +1,14 @@
-import React, { ChangeEvent, FC, memo, ReactElement, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, ReactElement, useCallback, useState } from 'react';
 
 import { Button, Grid, Input, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { v1 } from 'uuid';
 
 import { useStores } from 'hooks/useStores';
-import { btnColorType, FilterValuesType, TaskStatuses, TaskType } from 'models/TodoModel';
+import { btnColorType, FilterValuesType, TaskStatuses, TaskType } from 'models/TodoTypes';
 import Task from 'pages/Task';
 
-const Todolist: FC = memo(
+const Todolist: FC = React.memo(
   observer(() => {
     const { todoStore } = useStores();
     const [value, setValue] = useState('');
@@ -32,6 +32,14 @@ const Todolist: FC = memo(
       (filter: FilterValuesType) => todoStore.changeFilter(filter),
       [],
     );
+
+    let filteredTasks = todoStore.tasks;
+    if (todoStore.filter === 'active') {
+      filteredTasks = todoStore.tasks.filter(t => t.status === TaskStatuses.Active);
+    }
+    if (todoStore.filter === 'completed') {
+      filteredTasks = todoStore.tasks.filter(t => t.status === TaskStatuses.Completed);
+    }
 
     const renderFilterButton = (
       buttonFilter: FilterValuesType,
@@ -57,10 +65,10 @@ const Todolist: FC = memo(
             </Button>
           </div>
           <div>
-            {todoStore.tasks.map(t => (
+            {filteredTasks.map(t => (
               <Task key={t.id} task={t} />
             ))}
-            {!todoStore.tasks.length && (
+            {!filteredTasks.length && (
               <div style={{ padding: '10px', color: 'grey' }}>No task</div>
             )}
           </div>
