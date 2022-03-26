@@ -1,9 +1,15 @@
 import { makeAutoObservable } from 'mobx';
 
-import UserService from 'api/UsersService';
+import AuthApi from 'api/authApi';
 import { FormValuesType } from 'components/LoginForm';
-import { UserType } from 'models/UserType';
-import { IAuth } from 'store/auth/IAuth';
+import { AuthModel } from 'models/AuthModel';
+
+export interface IAuth {
+  isAuth: boolean;
+  error: string;
+  isLoading: boolean;
+  user: AuthModel;
+}
 
 class AuthStore implements IAuth {
   isAuth = false;
@@ -12,7 +18,7 @@ class AuthStore implements IAuth {
 
   isLoading = false;
 
-  user = {} as UserType;
+  user = {} as AuthModel;
 
   constructor() {
     makeAutoObservable(this);
@@ -30,14 +36,14 @@ class AuthStore implements IAuth {
     this.isLoading = isLoading;
   }
 
-  setUser(user: UserType): void {
+  setUser(user: AuthModel): void {
     this.user = user;
   }
 
   async login(values: FormValuesType): Promise<void> {
     try {
       this.setIsLoading(true);
-      const response = await UserService.getUsers();
+      const response = await AuthApi.getAuthUsers();
       const mockUser = response.data.find(
         user => user.email === values.email && user.password === values.password,
       );
@@ -58,9 +64,16 @@ class AuthStore implements IAuth {
   async logout(): Promise<void> {
     localStorage.removeItem('auth');
     localStorage.removeItem('email');
-    this.setUser({} as UserType);
+    this.setUser({} as AuthModel);
     this.setAuth(false);
   }
 }
+
+export const AuthStoreInitialState = {
+  isAuth: false,
+  error: '',
+  isLoading: false,
+  user: {} as AuthModel,
+};
 
 export default new AuthStore();

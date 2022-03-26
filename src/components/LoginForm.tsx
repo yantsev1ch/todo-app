@@ -13,7 +13,7 @@ import { observer } from 'mobx-react-lite';
 import { Navigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import auth from 'store/auth/authStore';
+import { useStores } from 'hooks/useStores';
 
 export type FormValuesType = {
   email: string;
@@ -32,6 +32,7 @@ const schema = Yup.object().shape({
 });
 
 export const LoginForm: FC = observer(() => {
+  const { authStore } = useStores();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -39,11 +40,11 @@ export const LoginForm: FC = observer(() => {
     },
     validationSchema: schema,
     onSubmit: async (values: FormValuesType) => {
-      await auth.login(values);
+      await authStore.login(values);
     },
   });
 
-  if (auth.isAuth) {
+  if (authStore.isAuth) {
     return <Navigate to="/" />;
   }
 

@@ -7,21 +7,24 @@ import { observer } from 'mobx-react-lite';
 
 import AppRouter from 'components/AppRouter';
 import Navbar from 'components/Navbar';
-import { UserType } from 'models/UserType';
-import auth from 'store/auth/authStore';
+import { useStores } from 'hooks/useStores';
+import { AuthModel } from 'models/AuthModel';
 
 const App: FC = observer(() => {
+  const { authStore } = useStores();
   useEffect(() => {
     if (localStorage.getItem('auth')) {
-      auth.setUser({ email: localStorage.getItem('email' || '') } as UserType);
-      auth.setAuth(true);
+      authStore.setUser({
+        email: localStorage.getItem('email' || ''),
+      } as AuthModel);
+      authStore.setAuth(true);
     }
   }, []);
 
   return (
     <div>
       <Navbar />
-      {auth.isLoading && <LinearProgress />}
+      {authStore.isLoading && <LinearProgress />}
       <AppRouter />
     </div>
   );

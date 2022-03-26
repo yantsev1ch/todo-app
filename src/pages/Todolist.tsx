@@ -1,44 +1,45 @@
-import React, { FC, memo, ReactElement, useCallback } from 'react';
+import React, { ChangeEvent, FC, memo, ReactElement, useCallback, useState } from 'react';
 
-import { Button, Grid, Paper } from '@mui/material';
+import { Button, Grid, Input, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { Navigate } from 'react-router-dom';
+import { v1 } from 'uuid';
 
-import AddTaskModal from 'components/AddTaskModal';
+import { useStores } from 'hooks/useStores';
+import { btnColorType, FilterValuesType, TaskStatuses, TaskType } from 'models/TodoModel';
 import Task from 'pages/Task';
-import auth from 'store/auth/authStore';
-import { ITasks } from 'store/todo/ITasks';
-import { FilterValuesType } from 'store/todo/ITodo';
-import todo from 'store/todo/todoStore';
 
 const Todolist: FC = memo(
   observer(() => {
-    const addTask = useCallback(
-      (task: ITasks) => {
-        todo.addTask(task);
-      },
-      [todo.addTask],
-    );
+    const { todoStore } = useStores();
+    const [value, setValue] = useState('');
+
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+      setValue(event.currentTarget.value);
+    };
+
+    const addNewTask = (): void => {
+      const newTask: TaskType = {
+        id: v1(),
+        title: value,
+        executor: '',
+        status: TaskStatuses.Waiting,
+      };
+      todoStore.addTask(newTask);
+      setValue('');
+    };
 
     const onFilterButtonClickHandler = useCallback(
-      (filter: FilterValuesType) => todo.changeFilter(filter),
+      (filter: FilterValuesType) => todoStore.changeFilter(filter),
       [],
     );
 
     const renderFilterButton = (
       buttonFilter: FilterValuesType,
-      color:
-        | 'secondary'
-        | 'success'
-        | 'inherit'
-        | 'warning'
-        | 'error'
-        | 'primary'
-        | 'info',
+      color: btnColorType,
       text: string,
     ): ReactElement => (
       <Button
-        variant={todo.filter === buttonFilter ? 'contained' : 'outlined'}
+        variant={todoStore.filter === buttonFilter ? 'contained' : 'outlined'}
         onClick={() => onFilterButtonClickHandler(buttonFilter)}
         color={color}
       >
@@ -46,19 +47,20 @@ const Todolist: FC = memo(
       </Button>
     );
 
-    if (!auth.isAuth) {
-      return <Navigate to="/login" />;
-    }
-
     return (
       <Grid className="todolist-container">
         <Paper className="todolist-content">
-          <AddTaskModal addTask={addTask} />
+          <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+            <Input value={value} onChange={onChangeHandler} />
+            <Button color="warning" style={{ marginLeft: 10 }} onClick={addNewTask}>
+              Add task
+            </Button>
+          </div>
           <div>
-            {todo.tasks.map(t => (
+            {todoStore.tasks.map(t => (
               <Task key={t.id} task={t} />
             ))}
-            {!todo.tasks.length && (
+            {!todoStore.tasks.length && (
               <div style={{ padding: '10px', color: 'grey' }}>No task</div>
             )}
           </div>

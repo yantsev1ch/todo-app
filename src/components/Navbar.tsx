@@ -4,10 +4,11 @@ import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
 import ErrorSnackbar from 'components/ErrorSnackbar';
-import auth from 'store/auth/authStore';
+import { useStores } from 'hooks/useStores';
 
 const Navbar: FC = observer(() => {
-  const logoutHandle = (): Promise<void> => auth.logout();
+  const { authStore } = useStores();
+  const logoutHandle = (): Promise<void> => authStore.logout();
 
   return (
     <div>
@@ -15,7 +16,7 @@ const Navbar: FC = observer(() => {
       <AppBar position="static">
         <Toolbar className="navbar">
           <Typography variant="h6">Todo App</Typography>
-          {auth.isAuth && (
+          {authStore.isAuth && (
             <Button color="inherit" onClick={logoutHandle}>
               Log Out
             </Button>
