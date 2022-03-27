@@ -1,5 +1,5 @@
-@import "src/styles/loginForm";
-@import "src/styles/navbar";
+@import "../components/Login/LoginForm/LoginForm.style";
+@import "../components/Navbar/Navbar.style";
 @import "src/styles/todolist";
 @import "src/styles/task";
 @import "src/styles/userList";

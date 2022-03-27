@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import AuthApi from 'api/authApi';
 import UsersApi from 'api/usersApi';
-import { FormValuesType } from 'components/LoginForm';
+import { FormValuesType } from 'components/Login/LoginForm/LoginForm';
 import { AuthUserType } from 'models/AuthUserType';
 import { FetchUsersType } from 'models/FetchUsersType';
 
@@ -66,7 +66,7 @@ class AuthStore implements IAuth {
       }
       this.setIsLoading(false);
     } catch (e) {
-      this.setError('Login error');
+      this.setError('LoginView error');
     }
   }
 

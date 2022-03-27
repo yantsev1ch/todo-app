@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 
-import { CustomSpanView } from 'components/CustomSpan/CustomSpanView';
+import { CustomSpanView } from 'components/CustomSpan/CustomSpan.view';
 
 export interface ICustomSpan {
   value: string;

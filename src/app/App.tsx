@@ -6,7 +6,7 @@ import { LinearProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
 import { AppRouter } from 'components/AppRouter';
-import { Navbar } from 'components/Navbar';
+import { Navbar } from 'components/Navbar/Navbar';
 import { useStores } from 'hooks/useStores';
 import { AuthUserType } from 'models/AuthUserType';
 

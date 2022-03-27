@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Login } from 'pages/Login';
+import { LoginView } from 'components/Login/Login.view';
 import { Todolist } from 'pages/Todolist';
 
 export interface IRoute {
@@ -13,6 +13,6 @@ export enum RouteNames {
   TODOLIST = '/',
 }
 
-export const publicRoutes: IRoute[] = [{ path: RouteNames.LOGIN, element: Login }];
+export const publicRoutes: IRoute[] = [{ path: RouteNames.LOGIN, element: LoginView }];
 
 export const privateRoutes: IRoute[] = [{ path: RouteNames.TODOLIST, element: Todolist }];

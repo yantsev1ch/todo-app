@@ -4,7 +4,7 @@ import { AlertProps } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { observer } from 'mobx-react-lite';
 
-import { ErrorSnackbarView } from 'components/ErrorSnackbar/ErrorSnackbarView';
+import { ErrorSnackbarView } from 'components/ErrorSnackbar/ErrorSnackbar.view';
 import { useStores } from 'hooks/useStores';
 
 const ErrorSnackbar: FC = observer(() => {
