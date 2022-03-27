@@ -1,14 +1,11 @@
 import React, { FC, SyntheticEvent } from 'react';
 
-import { AlertProps, Snackbar } from '@mui/material';
+import { AlertProps } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { observer } from 'mobx-react-lite';
 
+import { ErrorSnackbarView } from 'components/ErrorSnackbar/ErrorSnackbarView';
 import { useStores } from 'hooks/useStores';
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
-  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
-));
 
 const ErrorSnackbar: FC = observer(() => {
   const { authStore } = useStores();
@@ -22,12 +19,12 @@ const ErrorSnackbar: FC = observer(() => {
     authStore.setError('');
   };
 
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
+    <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+  ));
+
   return (
-    <Snackbar open={authStore.error !== ''} autoHideDuration={6000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-        {authStore.error}
-      </Alert>
-    </Snackbar>
+    <ErrorSnackbarView error={authStore.error} handleClose={handleClose} Alert={Alert} />
   );
 });
 

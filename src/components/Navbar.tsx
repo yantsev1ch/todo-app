@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
-import ErrorSnackbar from 'components/ErrorSnackbar';
+import ErrorSnackbar from 'components/ErrorSnackbar/ErrorSnackbar';
 import { useStores } from 'hooks/useStores';
 
 export const Navbar: FC = observer(() => {
