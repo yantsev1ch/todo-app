@@ -6,7 +6,7 @@ import { Checkbox, IconButton } from '@mui/material';
 import { CustomSpan } from 'components/CustomSpan/CustomSpan';
 import { ITask } from 'components/Task/Task';
 import { TaskModal } from 'components/Task/TaskModal/TaskModal';
-import { FilterValuesType } from 'models/TodoTypes';
+import { FilterValuesType } from 'types/TodoTypes';
 
 interface ITaskView extends ITask {
   filter: FilterValuesType;

@@ -3,8 +3,8 @@ import { makeAutoObservable } from 'mobx';
 import AuthApi from 'api/authApi';
 import UsersApi from 'api/usersApi';
 import { FormValuesType } from 'components/Login/LoginForm/LoginForm';
-import { AuthUserType } from 'models/AuthUserType';
-import { UsersType } from 'models/UsersType';
+import { AuthUserType } from 'types/AuthUserType';
+import { UsersType } from 'types/UsersType';
 
 export interface IAuth {
   isAuth: boolean;

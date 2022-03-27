@@ -1,14 +1,11 @@
 import React, { FC, useEffect } from 'react';
 
-import './App.scss';
-
-import { LinearProgress } from '@mui/material';
+import 'components/App/App.style.scss';
 import { observer } from 'mobx-react-lite';
 
-import { AppRouter } from 'components/AppRouter';
-import { Navbar } from 'components/Navbar/Navbar';
+import { AppView } from 'components/App/App.view';
 import { useStores } from 'hooks/useStores';
-import { AuthUserType } from 'models/AuthUserType';
+import { AuthUserType } from 'types/AuthUserType';
 
 const App: FC = observer(() => {
   const { authStore, todoStore } = useStores();
@@ -23,13 +20,7 @@ const App: FC = observer(() => {
     authStore.fetchUsers();
   }, []);
 
-  return (
-    <div>
-      <Navbar />
-      {authStore.isLoading && <LinearProgress />}
-      <AppRouter />
-    </div>
-  );
+  return <AppView isLoading={authStore.isLoading} />;
 });
 
 export default App;

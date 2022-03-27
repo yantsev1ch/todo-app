@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import App from 'app/App';
+import App from 'components/App/App';
 import { rootStore, StoreProvider } from 'stores/rootStore';
 
 ReactDOM.render(

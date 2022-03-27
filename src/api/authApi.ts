@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { AuthUserType } from 'models/AuthUserType';
+import { AuthUserType } from 'types/AuthUserType';
 
 export default class AuthApi {
   static async getAuthUsers(): Promise<AxiosResponse<Array<AuthUserType>>> {

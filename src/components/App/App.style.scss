@@ -1,0 +1,12 @@
+@import "../Login/LoginForm/LoginForm.style";
+@import "../Navbar/Navbar.style";
+@import "../Todolist/Todolist.style";
+@import "../Task/Task.style";
+@import "../Task/TaskModal/TaskModal.style";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}

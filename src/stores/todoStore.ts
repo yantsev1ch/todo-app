@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import { FilterValuesType, TaskType, UpdateTaskModelType } from 'models/TodoTypes';
+import { FilterValuesType, TaskType, UpdateTaskModelType } from 'types/TodoTypes';
 
 export interface ITodo {
   filter: FilterValuesType;

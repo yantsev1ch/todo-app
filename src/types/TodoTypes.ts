@@ -1,5 +1,5 @@
 export type FilterValuesType = 'waiting' | 'active' | 'completed';
-export type btnColorType =
+export type BtnColorType =
   | 'secondary'
   | 'success'
   | 'inherit'

@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { UsersType } from 'models/UsersType';
+import { UsersType } from 'types/UsersType';
 
 export default class UsersApi {
   static async getAllUsers(): Promise<AxiosResponse<Array<UsersType>>> {

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { TaskView } from 'components/Task/Task.view';
 import { useStores } from 'hooks/useStores';
-import { TaskType } from 'models/TodoTypes';
+import { TaskType } from 'types/TodoTypes';
 
 export interface ITask {
   task: TaskType;

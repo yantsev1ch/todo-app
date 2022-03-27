@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useStores } from 'hooks/useStores';
-import { privateRoutes, publicRoutes, RouteNames } from 'routes';
+import { privateRoutes, publicRoutes, RouteNames } from 'routes/index';
 
 export const AppRouter = observer(() => {
   const { authStore } = useStores();

@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC } from 'react';
 
 import { Input } from '@mui/material';
 
-interface ITaskSearch {
+export interface ITaskSearch {
   search: string;
   setSearch: (value: string) => void;
   disabled: boolean;
