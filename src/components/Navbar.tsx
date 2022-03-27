@@ -6,9 +6,9 @@ import { observer } from 'mobx-react-lite';
 import ErrorSnackbar from 'components/ErrorSnackbar';
 import { useStores } from 'hooks/useStores';
 
-const Navbar: FC = observer(() => {
+export const Navbar: FC = observer(() => {
   const { authStore } = useStores();
-  const logoutHandle = (): Promise<void> => authStore.logout();
+  const logoutHandle = (): void => authStore.logout();
 
   return (
     <div>
@@ -26,5 +26,3 @@ const Navbar: FC = observer(() => {
     </div>
   );
 });
-
-export default Navbar;

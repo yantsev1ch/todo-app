@@ -70,7 +70,7 @@ class AuthStore implements IAuth {
     }
   }
 
-  async logout(): Promise<void> {
+  logout(): void {
     localStorage.removeItem('auth');
     localStorage.removeItem('email');
     this.setUser({} as AuthUserType);

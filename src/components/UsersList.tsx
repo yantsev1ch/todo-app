@@ -1,82 +1,54 @@
 import * as React from 'react';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
+import styled from '@emotion/styled';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { IconButton } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
+import { IconButton, ListItem, ListItemText } from '@mui/material';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 import { observer } from 'mobx-react-lite';
 
 import { useStores } from 'hooks/useStores';
 
-type PropsType = {
-  onClose: (value: string) => void;
-  open: boolean;
-  selectedValue: string;
-};
+interface IUserList {
+  onChangeExecutor: (executor: string) => void;
+}
 
-const SimpleDialog: FC<PropsType> = observer((props: any): ReactElement => {
-  const { onClose, selectedValue, open } = props;
+export const UsersList: FC<IUserList> = observer(({ onChangeExecutor }): ReactElement => {
   const { authStore } = useStores();
+  const [open, setOpen] = useState(false);
 
-  const handleClose = (): void => {
-    onClose(selectedValue);
-  };
+  const handleOpen = (): void => setOpen(true);
 
-  const handleListItemClick = (value: any): void => {
-    onClose(value);
-  };
-
-  return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set backup account</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {authStore.users.map(user => (
-          <ListItem button onClick={() => handleListItemClick(user.name)} key={user.id}>
-            <ListItemText primary={user.name} />
-          </ListItem>
-        ))}
-
-        <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
-          <ListItemAvatar>
-            <Avatar>
-              <AddIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Add account" />
-        </ListItem>
-      </List>
-    </Dialog>
-  );
-});
-
-const UsersList = (): ReactElement => {
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState('');
-
-  const handleClickOpen = (): void => {
-    setOpen(true);
-  };
-
-  const handleClose = (value: any): void => {
+  const setExecutor = (value: string): void => {
+    if (value.length) {
+      onChangeExecutor(value);
+    }
     setOpen(false);
-    setSelectedValue(value);
   };
 
+  const Div = styled('div')`
+    display: inline;
+  `;
+
   return (
-    <div style={{ display: 'inline' }}>
-      <IconButton onClick={handleClickOpen}>
+    <Div>
+      <IconButton onClick={handleOpen}>
         <SettingsIcon fontSize="small" />
       </IconButton>
-      <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
-    </div>
+      <Modal open={open} onClose={setExecutor}>
+        <Box className="userlist-box">
+          <Typography variant="h6" component="h1" align="center">
+            Select the task executor
+          </Typography>
+          {authStore.users.map(user => (
+            <ListItem button onClick={() => setExecutor(user.name)} key={user.id}>
+              <ListItemText primary={user.name} />
+            </ListItem>
+          ))}
+        </Box>
+      </Modal>
+    </Div>
   );
-};
-
-export default UsersList;
+});

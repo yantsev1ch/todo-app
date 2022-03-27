@@ -1,45 +1,47 @@
-import React, { ChangeEvent, FC, ReactElement, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, ReactElement, useState } from 'react';
 
 import { Button, Grid, Input, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { v1 } from 'uuid';
 
+import { Task } from 'components/Task';
+import { TaskSearch } from 'components/TaskSearch';
 import { useStores } from 'hooks/useStores';
-import { btnColorType, FilterValuesType, TaskStatuses, TaskType } from 'models/TodoTypes';
-import Task from 'pages/Task';
+import { btnColorType, FilterValuesType, TaskType } from 'models/TodoTypes';
 
-const Todolist: FC = React.memo(
+export const Todolist: FC = React.memo(
   observer(() => {
-    const { todoStore } = useStores();
-    const [value, setValue] = useState('');
+    const { todoStore, authStore } = useStores();
+    const [title, setTitle] = useState('');
+    const [search, setSearch] = useState('');
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
-      setValue(event.currentTarget.value);
+      setTitle(event.currentTarget.value);
     };
 
     const addNewTask = (): void => {
+      if (!title.trim().length) {
+        authStore.setError('Enter valid task name');
+        setTitle('');
+        return;
+      }
       const newTask: TaskType = {
         id: v1(),
-        title: value,
+        title,
         executor: '',
-        status: TaskStatuses.Waiting,
+        status: 'waiting',
       };
       todoStore.addTask(newTask);
-      setValue('');
+      setTitle('');
     };
 
-    const onFilterButtonClickHandler = useCallback(
-      (filter: FilterValuesType) => todoStore.changeFilter(filter),
-      [],
-    );
+    const onFilterButtonClickHandler = (filter: FilterValuesType): void =>
+      todoStore.changeFilter(filter);
 
-    let filteredTasks = todoStore.tasks;
-    if (todoStore.filter === 'active') {
-      filteredTasks = todoStore.tasks.filter(t => t.status === TaskStatuses.Active);
-    }
-    if (todoStore.filter === 'completed') {
-      filteredTasks = todoStore.tasks.filter(t => t.status === TaskStatuses.Completed);
-    }
+    const filterTasks = (tasks: Array<TaskType>): Array<TaskType> =>
+      tasks
+        .filter(task => task.status === todoStore.filter)
+        .filter(task => task.title.toLowerCase().includes(search.toLowerCase()));
 
     const renderFilterButton = (
       buttonFilter: FilterValuesType,
@@ -58,18 +60,29 @@ const Todolist: FC = React.memo(
     return (
       <Grid className="todolist-container">
         <Paper className="todolist-content">
-          <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
-            <Input value={value} onChange={onChangeHandler} />
-            <Button color="warning" style={{ marginLeft: 10 }} onClick={addNewTask}>
-              Add task
-            </Button>
+          <div className="todolist-inputs">
+            <TaskSearch
+              search={search}
+              setSearch={setSearch}
+              disabled={!todoStore.tasks.length}
+            />
+            <div>
+              <Input
+                value={title}
+                placeholder="Enter task name"
+                onChange={onChangeHandler}
+              />
+              <Button color="warning" sx={{ marginLeft: '10px' }} onClick={addNewTask}>
+                Add task
+              </Button>
+            </div>
           </div>
           <div>
-            {filteredTasks.map(t => (
-              <Task key={t.id} task={t} />
+            {filterTasks(todoStore.tasks).map(task => (
+              <Task key={task.id} task={task} />
             ))}
-            {!filteredTasks.length && (
-              <div style={{ padding: '10px', color: 'grey' }}>No task</div>
+            {!filterTasks(todoStore.tasks).length && (
+              <div className="filter-task-error">No task</div>
             )}
           </div>
           <div className="todolist-btn">
@@ -82,5 +95,3 @@ const Todolist: FC = React.memo(
     );
   }),
 );
-
-export default Todolist;

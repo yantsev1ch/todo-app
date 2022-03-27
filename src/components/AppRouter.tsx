@@ -6,7 +6,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useStores } from 'hooks/useStores';
 import { privateRoutes, publicRoutes, RouteNames } from 'routes';
 
-const AppRouter = observer(() => {
+export const AppRouter = observer(() => {
   const { authStore } = useStores();
   return authStore.isAuth ? (
     <Routes>
@@ -24,5 +24,3 @@ const AppRouter = observer(() => {
     </Routes>
   );
 });
-
-export default AppRouter;

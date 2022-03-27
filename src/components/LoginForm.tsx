@@ -15,10 +15,10 @@ import * as Yup from 'yup';
 
 import { useStores } from 'hooks/useStores';
 
-export type FormValuesType = {
+export interface FormValuesType {
   email: string;
   password: string;
-};
+}
 
 const minValue = 4;
 const maxValue = 8;

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Login from 'pages/Login';
-import Todolist from 'pages/Todolist';
+import { Login } from 'pages/Login';
+import { Todolist } from 'pages/Todolist';
 
 export interface IRoute {
   path: string;

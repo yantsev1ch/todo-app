@@ -12,17 +12,11 @@ export type TaskType = {
   id: string;
   title: string;
   executor: string;
-  status: TaskStatuses;
+  status: FilterValuesType;
 };
-
-export enum TaskStatuses {
-  Waiting = 0,
-  Active = 1,
-  Completed = 2,
-}
 
 export type UpdateTaskModelType = {
   title?: string;
   executor?: string;
-  status?: TaskStatuses;
+  status?: FilterValuesType;
 };

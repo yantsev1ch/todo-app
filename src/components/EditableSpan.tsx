@@ -2,12 +2,13 @@ import React, { ChangeEvent, FC, useState } from 'react';
 
 import { Input } from '@mui/material';
 
-type PropsType = {
+interface IEditSpan {
   value: string;
   onChange: (title: string) => void;
-};
+  executor: string;
+}
 
-export const EditableSpan: FC<PropsType> = React.memo(({ value, onChange }) => {
+export const EditableSpan: FC<IEditSpan> = ({ value, onChange, executor }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(value);
 
@@ -26,6 +27,8 @@ export const EditableSpan: FC<PropsType> = React.memo(({ value, onChange }) => {
   return editMode ? (
     <Input value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
   ) : (
-    <span onDoubleClick={activateEditMode}>{value}</span>
+    <span onDoubleClick={activateEditMode}>
+      {value}: {executor}
+    </span>
   );
-});
+};
