@@ -4,7 +4,7 @@ import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
-import { EditableSpan } from 'components/EditableSpan';
+import { CustomSpan } from 'components/CustomSpan/CustomSpan';
 import { UsersList } from 'components/UsersList';
 import { useStores } from 'hooks/useStores';
 import { TaskType } from 'models/TodoTypes';
@@ -56,7 +56,7 @@ export const Task: FC<ITask> = React.memo(
             onChange={onChangeStatusHandle}
           />
         )}
-        <EditableSpan
+        <CustomSpan
           value={task.title}
           onChange={onChangeTitleHandle}
           executor={task.executor}

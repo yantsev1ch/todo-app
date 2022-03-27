@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 
-import { Input } from '@mui/material';
+import { CustomSpanView } from 'components/CustomSpan/CustomSpanView';
 
-interface IEditSpan {
+export interface ICustomSpan {
   value: string;
   onChange: (title: string) => void;
   executor: string;
 }
 
-export const EditableSpan: FC<IEditSpan> = ({ value, onChange, executor }) => {
+export const CustomSpan: FC<ICustomSpan> = ({ value, onChange, executor }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(value);
 
@@ -24,11 +24,16 @@ export const EditableSpan: FC<IEditSpan> = ({ value, onChange, executor }) => {
     setTitle(e.currentTarget.value);
   };
 
-  return editMode ? (
-    <Input value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
-  ) : (
-    <span onDoubleClick={activateEditMode}>
-      {value}: {executor}
-    </span>
+  return (
+    <CustomSpanView
+      value={value}
+      executor={executor}
+      changeTitle={changeTitle}
+      title={title}
+      activateViewMode={activateViewMode}
+      activateEditMode={activateEditMode}
+      editMode={editMode}
+      onChange={onChange}
+    />
   );
 };
