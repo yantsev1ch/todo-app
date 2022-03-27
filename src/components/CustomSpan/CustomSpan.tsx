@@ -20,7 +20,7 @@ export const CustomSpan: FC<ICustomSpan> = ({ value, onChange, executor }) => {
     setEditMode(false);
     onChange(title);
   };
-  const changeTitle = (e: ChangeEvent<HTMLInputElement>): void => {
+  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>): void => {
     setTitle(e.currentTarget.value);
   };
 
@@ -28,7 +28,7 @@ export const CustomSpan: FC<ICustomSpan> = ({ value, onChange, executor }) => {
     <CustomSpanView
       value={value}
       executor={executor}
-      changeTitle={changeTitle}
+      onChangeTitle={onChangeTitle}
       title={title}
       activateViewMode={activateViewMode}
       activateEditMode={activateEditMode}

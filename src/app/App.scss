@@ -1,8 +1,8 @@
 @import "../components/Login/LoginForm/LoginForm.style";
 @import "../components/Navbar/Navbar.style";
 @import "src/styles/todolist";
-@import "src/styles/task";
-@import "src/styles/userList";
+@import "../components/Task/Task.style";
+@import "../components/Task/TaskModal/TaskModal.style";
 
 * {
   padding: 0;

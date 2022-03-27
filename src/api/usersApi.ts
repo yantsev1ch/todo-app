@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { FetchUsersType } from 'models/FetchUsersType';
+import { UsersType } from 'models/UsersType';
 
 export default class UsersApi {
-  static async getAllUsers(): Promise<AxiosResponse<Array<FetchUsersType>>> {
-    return axios.get<Array<FetchUsersType>>('https://jsonplaceholder.typicode.com/users');
+  static async getAllUsers(): Promise<AxiosResponse<Array<UsersType>>> {
+    return axios.get<Array<UsersType>>('https://jsonplaceholder.typicode.com/users');
   }
 }

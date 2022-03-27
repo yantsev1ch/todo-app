@@ -6,17 +6,17 @@ import ErrorSnackbar from 'components/ErrorSnackbar/ErrorSnackbar';
 
 interface INavbar {
   isAuth: boolean;
-  logoutHandle: () => void;
+  logout: () => void;
 }
 
-export const NavbarView: FC<INavbar> = ({ isAuth, logoutHandle }) => (
+export const NavbarView: FC<INavbar> = ({ isAuth, logout }) => (
   <div>
     <ErrorSnackbar />
     <AppBar position="static">
       <Toolbar className="navbar">
         <Typography variant="h6">Todo App</Typography>
         {isAuth && (
-          <Button color="inherit" onClick={logoutHandle}>
+          <Button color="inherit" onClick={logout}>
             Log Out
           </Button>
         )}

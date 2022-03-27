@@ -4,14 +4,14 @@ import AuthApi from 'api/authApi';
 import UsersApi from 'api/usersApi';
 import { FormValuesType } from 'components/Login/LoginForm/LoginForm';
 import { AuthUserType } from 'models/AuthUserType';
-import { FetchUsersType } from 'models/FetchUsersType';
+import { UsersType } from 'models/UsersType';
 
 export interface IAuth {
   isAuth: boolean;
   error: string;
   isLoading: boolean;
   user: AuthUserType;
-  users: Array<FetchUsersType>;
+  users: Array<UsersType>;
 }
 
 class AuthStore implements IAuth {
@@ -23,7 +23,7 @@ class AuthStore implements IAuth {
 
   user = {} as AuthUserType;
 
-  users: Array<FetchUsersType> = [];
+  users: Array<UsersType> = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -45,7 +45,7 @@ class AuthStore implements IAuth {
     this.user = user;
   }
 
-  setReceivedUsers(users: Array<FetchUsersType>): void {
+  setReceivedUsers(users: Array<UsersType>): void {
     this.users = users;
   }
 

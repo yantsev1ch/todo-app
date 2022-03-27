@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { FC, ReactElement, useState } from 'react';
+import React, { FC } from 'react';
 
 import styled from '@emotion/styled';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -7,33 +6,27 @@ import { IconButton, ListItem, ListItemText } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import { observer } from 'mobx-react-lite';
 
-import { useStores } from 'hooks/useStores';
+import { UsersType } from 'models/UsersType';
 
-interface IUserList {
-  onChangeExecutor: (executor: string) => void;
+interface ITaskModalView {
+  open: boolean;
+  users: Array<UsersType>;
+  handleOpen: () => void;
+  setExecutor: (executor: string) => void;
 }
 
-export const UsersList: FC<IUserList> = observer(({ onChangeExecutor }): ReactElement => {
-  const { authStore } = useStores();
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = (): void => setOpen(true);
-
-  const setExecutor = (value: string): void => {
-    if (value.length) {
-      onChangeExecutor(value);
-    }
-    setOpen(false);
-  };
-
-  const Div = styled('div')`
+export const TaskModalView: FC<ITaskModalView> = ({
+  open,
+  users,
+  handleOpen,
+  setExecutor,
+}) => {
+  const Container = styled('div')`
     display: inline;
   `;
-
   return (
-    <Div>
+    <Container>
       <IconButton onClick={handleOpen}>
         <SettingsIcon fontSize="small" />
       </IconButton>
@@ -42,13 +35,13 @@ export const UsersList: FC<IUserList> = observer(({ onChangeExecutor }): ReactEl
           <Typography variant="h6" component="h1" align="center">
             Select the task executor
           </Typography>
-          {authStore.users.map(user => (
+          {users.map(user => (
             <ListItem button onClick={() => setExecutor(user.name)} key={user.id}>
               <ListItemText primary={user.name} />
             </ListItem>
           ))}
         </Box>
       </Modal>
-    </Div>
+    </Container>
   );
-});
+};

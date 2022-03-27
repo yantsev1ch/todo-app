@@ -1,15 +1,12 @@
 import React, { ChangeEvent, FC, useCallback } from 'react';
 
-import { Delete } from '@mui/icons-material';
-import { Checkbox, IconButton } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
-import { CustomSpan } from 'components/CustomSpan/CustomSpan';
-import { UsersList } from 'components/UsersList';
+import { TaskView } from 'components/Task/Task.view';
 import { useStores } from 'hooks/useStores';
 import { TaskType } from 'models/TodoTypes';
 
-interface ITask {
+export interface ITask {
   task: TaskType;
 }
 
@@ -34,9 +31,7 @@ export const Task: FC<ITask> = React.memo(
 
     const onChangeExecutorHandle = useCallback(
       (executor: string) => {
-        if (executor) {
-          todoStore.updateTask(task.id, { executor, status: 'active' });
-        }
+        todoStore.updateTask(task.id, { executor, status: 'active' });
       },
       [task.id],
     );
@@ -46,25 +41,14 @@ export const Task: FC<ITask> = React.memo(
       [task.id],
     );
     return (
-      <div key={task.id} className="task-container">
-        {todoStore.filter === 'waiting' ? (
-          <UsersList onChangeExecutor={onChangeExecutorHandle} />
-        ) : (
-          <Checkbox
-            checked={task.status === 'completed'}
-            color="primary"
-            onChange={onChangeStatusHandle}
-          />
-        )}
-        <CustomSpan
-          value={task.title}
-          onChange={onChangeTitleHandle}
-          executor={task.executor}
-        />
-        <IconButton onClick={onRemoveTaskHandler} className="task-button" size="small">
-          <Delete fontSize="small" />
-        </IconButton>
-      </div>
+      <TaskView
+        filter={todoStore.filter}
+        onChangeExecutor={onChangeExecutorHandle}
+        onChangeStatus={onChangeStatusHandle}
+        onChangeTitle={onChangeTitleHandle}
+        onRemoveTask={onRemoveTaskHandler}
+        task={task}
+      />
     );
   }),
 );

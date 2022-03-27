@@ -9,5 +9,5 @@ export const Navbar: FC = observer(() => {
   const { authStore } = useStores();
   const logoutHandle = (): void => authStore.logout();
 
-  return <NavbarView isAuth={authStore.isAuth} logoutHandle={logoutHandle} />;
+  return <NavbarView isAuth={authStore.isAuth} logout={logoutHandle} />;
 });

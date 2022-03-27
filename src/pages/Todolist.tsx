@@ -4,8 +4,8 @@ import { Button, Grid, Input, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { v1 } from 'uuid';
 
-import { Task } from 'components/Task';
-import { TaskSearch } from 'components/TaskSearch';
+import { Task } from 'components/Task/Task';
+import { TaskSearchView } from 'components/Task/TaskSearch/TaskSearch.view';
 import { useStores } from 'hooks/useStores';
 import { btnColorType, FilterValuesType, TaskType } from 'models/TodoTypes';
 
@@ -61,7 +61,7 @@ export const Todolist: FC = React.memo(
       <Grid className="todolist-container">
         <Paper className="todolist-content">
           <div className="todolist-inputs">
-            <TaskSearch
+            <TaskSearchView
               search={search}
               setSearch={setSearch}
               disabled={!todoStore.tasks.length}
